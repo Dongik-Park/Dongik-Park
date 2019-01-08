@@ -1,3 +1,3 @@
 # Dongik-Park
 ## This is my knowledge repository.
-#OS
+#Operating System #Alogritm
