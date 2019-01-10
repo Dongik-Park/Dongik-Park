@@ -11,7 +11,7 @@
 > 참고 : http://yimoyimo.tk/OS-Process-Creation-and-Termination/
 <hr>
 
-## 2.프로세스와 쓰레드의 차이(Difference between process and thread)
+## 2. 프로세스와 쓰레드의 차이(Difference between process and thread)
 ### 프로세스(Process)
 > "컴퓨터에서 연속적으로 실행되고 있는 컴퓨터 프로그램"
 
