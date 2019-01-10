@@ -45,14 +45,16 @@
 ### **실행 환경(Runtime environment)**
 <hr>
 
-                  +-------+
-                  | .java |   
-                  +-------+
-                    ↓   
-                  +--------+                         +--------------+
-                  | .class | ----------------------> | Class Loader |
-                  +--------+                         +--------------+               
-                                                           ↑ ↓
+                                                    <JVM Architecture>
+                +------------+
+                | +-------+  |
+                | | .java |  | 
+                | +-------+  |
+                |     ↓      |
+                | +--------+ |                       +--------------+
+                | | .class | |---------------------> | Class Loader |
+                | +--------+ |                       +--------------+               
+                +------------+                             ↑ ↓
                                                            ↑ ↓
       +---------------------------------------JVM Memory or Runtime Data Area--------------------------------------+
       |                                                                                                            |
@@ -74,7 +76,7 @@
 
 #### JVM (Java Virtual Machine)
 
-  자바 바이트코드(byte code)를 실행할 수 있는 주체로 인터프리터(Interpreter)나 JIT 컴파일 방식으로 다른 컴퓨터 위에서 바이트코드를 실행할 수 있도록 구현된다.
+  자바 바이트코드(byte code)를 실행할 수 있는 주체로 바이트코드 검증기(bytecode verifier)ㄹ,ㄹ 거쳐 인터프리터(Interpreter)와 JIT 컴파일 방식으로 다른 컴퓨터 위에서 바이트코드를 실행할 수 있도록 구현된다.
 
   * 스택 기반의 가상 머신(Stack based virtual machine)
 
@@ -92,7 +94,7 @@
 
 #### 클래스 로더 (Class loader)
 
-하드 디스크에 있는 자바 컴파일러에 의해 번역된 class 파일을 메모리로 로딩시킨다. JVM이 실행되면 아래 3개의 클래스 로더들이 사용된다.
+하드 디스크에 있는 자바 컴파일러에 의해 번역된 class 파일을 메모리로 로딩(loading)시킨다. JVM이 실행되면 아래 3개의 클래스 로더들이 사용된다.
 
 * 부트스트랩 클래스 로더(Bootstrap class loader)
 * 확장 클래스 로더(Extension class loader)
@@ -128,12 +130,13 @@ java.class.path에서 볼 수 있는 시스템 클래스 로더는 CLASSPATH 환
 * **Native Method Stack** : 번역된 바이트코드(byte code)가 아닌 실제 실행 가능한 기계어로 작성된 프로그램을 실행시키는 영역으로 자바가 아닌 다른 언어로 작성된 코드를 위한 공간이다. 네이티브 메소드(Native method)를 지원하는 JVM에는 네이티브 메소드 스택이 있어 스레드마다 사용된다. 네이티브 메소드가 JVM에 의해로드 될 수없는 경우 네이티브 메소드 스택을 가질 필요가 없다. 메모리 크기는 고정 또는 동적 같은 일반적인 JVM 스택과 비슷하게 관리되며 JVM은 그에 따라 StackOverflowError 또는 OutOfMemoryError를 발생시킨다.
 
 #### GC (Garbage Collector)
-자바 언어는 메모리 관리를 개발자에게 위임하지 않고, GC(Garbage Collector)라는 쓰레드를 생성하여 동적 할당된 메모리 영역 가운데 참조 count가 0인 객체를 제거하도록 설계되었다. GC를 활용하여 예방할 수 있는 버그는 다음과 같다.
+
+자바 언어는 메모리 관리를 개발자에게 위임하지 않고, GC(Garbage Collector)라는 쓰레드를 생성하여 동적 할당된 메모리 영역 가운데 유효한 참조가 없는(Unreachable) 객체를 제거(free)하도록 설계되었다. GC를 활용하여 예방(prevent)할 수 있는 버그는 다음과 같다.
 * 유효하지 않은 포인터 접근(Dangling pointer bugs) : 이미 해제된 메모리에 접근하는 버그를 막는다. 
 * 이중 해제(Double free bugs) : 이미 해제된 메모리를 또다시 해제하는 버그를 가리킨다. 일부 메모리 할당 알고리즘에서는, 해제된 메모리를 다시 해제하려고 시도하는 것은 오류를 일으킬 수 있다.
 * 메모리 누수(Certain kinds of memory leaks): 더이상 필요하지 않은 메모리가 해제되지 않고 남아있는 버그를 가리킨다. 메모리 누수가 반복되면 메모리 고갈로 프로그램이 중단될 수 있다. (접근 가능한 메모리가 증가하여 메모리가 고갈되는 문제는 쓰레기 수집으로도 막을 수 없다)
 
-하지만 이를 통해 발생하는 단점은 다음과 같다.
+하지만 이를 통해 발생하는 단점(disadvangtage)은 다음과 같다.
 * 어떤 메모리를 해제할지 결정하는 데 비용이 든다.(consuming additional resources) 객체가 필요없어지는 시점을 프로그래머가 미리 알고 있는 경우에도 쓰레기 수집 알고리즘이 메모리 해제 시점을 추적해야 하므로, 이 작업은 오버헤드가 된다.
 * 쓰레기 수집이 일어나는 타이밍이나 점유 시간을 미리 예측하기 어렵다.(unpredictable collect time) 때문에 프로그램이 예측 불가능하게 일시적으로 정지할 수 있다. 이런 특성은 특히 실시간 시스템에는 적합하지 않다.
 * 할당된 메모리가 해제되는 시점을 알 수 없다.(unpredictable memory free time) 자원 할당과 변수 초기화를 일치하는 RAII(Resource Acquisition is Initialization) 스타일의 프로그래밍에서는, 이것은 자원 해제 시점을 알 수 없다는 것을 의미한다.
@@ -142,14 +145,41 @@ java.class.path에서 볼 수 있는 시스템 클래스 로더는 CLASSPATH 환
 
 #### JIT 컴파일러 (Just-In-Time, JIT compiler)
 
-#### JDK (Java Development Kit)
+JIT 컴파일(just-in-time compilation) 또는 동적 번역(dynamic translation)은 프로그램을 실제 실행하는 시점에 기계어로 번역하는 컴파일 기법으로 프로그램의 실행 속도를 빠르게 하기 위해 사용된다.
+JIT 컴파일러는 인터프리트(Interpret) 방식과 정적 컴파일(static compilation)을 혼합한 방식으로 생각할 수 있는데, 실행 시점에서 인터프리트 방식으로 기계어 코드를 생성하면서 그 코드를 **캐싱(caching)** 하여, 같은 함수가 여러 번 불릴 때 매번 기계어 코드를 생성하는 것을 방지한다.
+
+#### 인터프리터 (Interpreter)
+
+인터프리터는 프로그래밍 언어의 소스 코드를 바로 실행하는 컴퓨터 프로그램 또는 환경을 말한다. 인터프리터는 다음의 기능 중 한가지 이상을 포함하는 프로그램이다.
+
+1. 소스 코드를 직접 실행한다.
+2. 소스 코드를 효율적인 다른 중간 코드로 변환하고, 변환한 것을 바로 실행한다
+3. 인터프리터 시스템의 일부인 컴파일러가 만든, 미리 컴파일된 저장 코드의 실행을 호출한다.
+
+인터프리터는 컴파일된 프로그램들에 비해 느리게 실행되지만 줄 단위로 번역, 실행되기 때문에 시분할 시스템이나 대화형 시스템에 유용하며 원시 프로그램의 변화에 대한 반응이 빠르다.
+
+> Reference : [Interpreter(인터프리터)](https://en.wikipedia.org/wiki/Interpreter_(computing))
 
 #### JRE (Java Runtime Environment)
-> JRE  =  JVM ( Interpreter + JIT Compiler + GC )  +  Class Loader  +  Java API
 
+> JRE = JVM + API
 
-### **설치 (Installation)**
-<hr>
+#### JDK (Java Development Kit)
+
+                    +---------------------------------JDK---------------------------------+
+                    |                                                                     |
+                    |    +--------------------JRE----------------+    +-------------+     |
+                    |    |  +---------------+    +-----------+   |    |             |     |
+                    |    |  |  Java Virtual |    |  Library  |   |    | Development |     |
+                    |    |  |    machine    |    |  Classes  |   |    |    Tools    |     |
+                    |    |  +---------------+    +-----------+   |    |             |     |
+                    |    +---------------------------------------+    +-------------+     |
+                    |                                                                     |
+                    +---------------------------------------------------------------------+
+
+[JDK](https://ko.wikipedia.org/wiki/%EC%9E%90%EB%B0%94_%EA%B0%9C%EB%B0%9C_%ED%82%A4%ED%8A%B8)는 자바 SE, 자바 EE, 또는 자바 ME 플랫폼 중 하나를 구현한 것으로 솔라리스, 리눅스, 맥 OS X, 또는 윈도 자바 개발자를 대상으로 오라클에 의해 바이너리 제품으로 제공된다. 자바 플랫폼의 등장 이래 지금까지 가장 널리 사용되는 소프트웨어 개발 키트(SDK)로 자바 실행 환경(Java Runtime Environment, JRE)이 포함된다.
+
+> JDK = JRE + Development tool
 
 ### **데이터 타입 (Data type)**
 <hr>
@@ -167,6 +197,55 @@ java.class.path에서 볼 수 있는 시스템 클래스 로더는 CLASSPATH 환
 
 ### **TRY & CATCH**
 <hr>
+
+
+### **설치 (Installation)**
+<hr>
+
+#### Step1 : 다운로드 JDK (Download JDK)
+
+1.  Java SE download site에 접속한다. (http://www.oracle.com/technetwork/java/javase/downloads/index.html).
+2. "Java Platform, Standard Edition"의 최신버전을 확인하고 "DOWNLOAD" 버튼을 클릭한다.
+3. "Java SE Development Kit 11.0.{x}"의 "Accept License Agreement"을 클릭한다.
+4.  현재 컴퓨터의 운영체제에 맞는 JDK를 선택하고 다운로드 한다.
+
+#### Step2 : JDK & JRE 설치 (Install JDK & JRE)
+
+1. 다운로드된 "jdk-11.0.{x}_windows-x64_bin.exe"를 실행하고 설치를 진행한다.
+2. 설치가 완료되면 default로 
+    * JDK는 "C:\Program Files\Java\jdk-11.0.{x}"에
+    * JRE는 "C:\Program Files\Java\jre-11.0.{x}"에 설치된다.
+    * 32-bit의 경우 "Program Files" -> "Program Files (x86)"이다.
+
+#### Step3 : 환경 변수 설정 (Include JDK's "bin" directory in the PATH)
+
+1. JDK 설치가 완료되면 명령 프롬포트에서 사용하기 위해 환경 변수에 등록해야 한다.
+2. Window의 경우 "시스템 > 고급 시스템 설정" 을 클릭한다.
+3. '고급' 탭의 환경변수를 클릭한다.
+    * 환경 변수는 사용자 변수와 시스템 변수로 나뉘는데, 사용자 변수에 설정한 경우 윈도우 계정에만 적용되고, 시스템 변수에 설정한 경우 모든 계정에 변수가 지정된다.
+4. 시스템 변수의 '새로 만들기'를 클릭한다.
+5. 변수 이름은 'JAVA_HOME' 변수 값은 JDK가 설치된 경로를 입력한다. (default : "C:\Program Files\Java\jdk-11.0.{x}")
+6. '확인' 버튼을 눌러 변수를 저장한다.
+7. 다시 시스템 변수에서 '새로 만들기' 버튼을 클릭하여 변수 이름은 'CLASS_PATH', 변수 값은 '%JAVA_HOME%lib'를 입력하고 '확인'버튼을 눌러 변수를 저장한다.
+8. '시스템 변수' 중 'Path'를 선택한 다음 '편집' 버튼을 클릭한다.
+9. '환경 변수 편집' 우측의 '새로 만들기' 버튼을 클릭한다.
+10. '%JAVA_HOME%\bin'을 입력하고 '확인' 버튼을 클릭하여 변경 내용을 저장한다.
+
+#### Step4 : JDK 설치 확인 (Verify the JDK Installation)
+
+1. 명령 프롬포트를 실행시킨다.
+2. "java -version" 을 입력한다.
+
+    ```
+    C:\Users\student>java -version
+    java version "1.8.0_191"
+    Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+    Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
+
+    C:\Users\student>_
+    ```
+3. 위와 같은 형태로 나오면 설치가 완료된다.
+
 
 ### **JUnit**
 <hr>
