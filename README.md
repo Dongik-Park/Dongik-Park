@@ -1,5 +1,4 @@
 # **Dongik-Park**
-## This is my computer science repository.
 
 ## **운영체제(Operating System)**
 * ### 1. 일반적인 프로세스 생성 과정(General process creation process)
