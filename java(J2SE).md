@@ -194,6 +194,20 @@ JIT 컴파일러는 인터프리트(Interpret) 방식과 정적 컴파일(static
 
 ### **API (Application Programming Interface)**
 <hr>
+ API는 응용 프로그램에서 사용할 수 있도록, 운영 체제나 프로그래밍 언어가 제공하는 기능을 제어할 수 있게 만든 인터페이스를 뜻하며, 이를 활용하여 프로그래머가 손쉽게 프로그램을 개발할 수 있다. API는 다음과 같이 활용할 수 있다.
+ 
+ * **라이브러리와 프레임 워크(Library & Framework)** : 단일 API는 동일한 프로그래밍 인터페이스를 공유하는 여러 라이브러리의 형태로 구현할 수 있다. 또한, 한 언어의 기능을 다른 언어로 구현 된 인터페이스에 매핑하면 언어 바인딩(Language binding)을 통해 한 언어로 작성된 라이브러리나 서비스를 다른 언어로 개발할 때 사용할 수 있다.
+
+ * **운영체제(Operating systems)** : API는 응용 프로그램과 운영 체제 간의 인터페이스를 지정할 수 있다. 예를 들어, Linux 및 Berkeley Software Distribution 은 POSIX API를 구현하는 운영 체제이다.
+
+ * **원격 API (Remote APIs)** : 원격 API를 사용하면 개발자가 언어나 플랫폼에 관계없이 프로토콜, 통신 표준을 통해 원격 리소스를 조작 할 수 있다. 따라서 원격 API는 객체 지향 프로그래밍에서 객체 추상화를 유지하는 데 유용하다. 프록시 객체에서 로컬로 실행되는 메소드 호출은 원격 프로토콜을 사용하여 원격 객체에서 해당 메소드를 호출하고 반환한 결과 값을 조작할 수 있다.
+
+* **웹 API (Web APIs)** : 웹 개발의 컨텍스트에서 사용되는 경우 API는 일반적으로 [HTTP(Hypertext Transfer Protocol)](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) 요청 메시지 와 같은 일련의 사양으로 정의되며 대개 XML(Extensible Markup Language) 형식 또는 JSON (JavaScript Object Notation )형식의 응답 메시지를 활용한다. 
+
+    *"정보 숨기기의 원칙은 모듈 사용자가 모듈 내부의 복잡성을 이해할 필요가 없도록 모듈의 구현 세부 사항을 숨김으로써 모듈 프로그래밍을 가능하게하는 프로그래밍 인터페이스의 역할을 설명합니다." <br>
+    "The principle of information hiding describes the role of programming interfaces as enabling modular programming by hiding the implementation details of the modules so that users of modules need not understand the complexities inside the modules."*
+
+> Reference : [API](https://en.wikipedia.org/wiki/Application_programming_interface)
 
 ### **TRY & CATCH**
 <hr>
@@ -236,7 +250,7 @@ JIT 컴파일러는 인터프리트(Interpret) 방식과 정적 컴파일(static
 1. 명령 프롬포트를 실행시킨다.
 2. "java -version" 을 입력한다.
 
-    ```
+    ```cmd
     C:\Users\student>java -version
     java version "1.8.0_191"
     Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
