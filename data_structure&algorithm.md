@@ -1,5 +1,26 @@
-# 알고리즘(Algorithm)
-## 알고리즘 설계기법
+# 자료구조(Data structure) 및 알고리즘(Algorithm)
+## **자료구조** 
+### 개념(Concept)
+
+```
+자료구조(data structure)는 전산학에서 자료를 효율적으로 이용할 수 있도록 컴퓨터에 저장하는 방법이다. 신중히 선택한 자료구조는 보다 효율적인 알고리즘을 사용할 수 있게 한다. 
+
+In computer science, a data structure is a data organization, management and storage format that enables efficient access and modification.More precisely, a data structure is a collection of data values, the relationships among them, and the functions or operations that can be applied to the data.
+```
+
+> Refernece : [wiki : 자료구조](https://en.wikipedia.org/wiki/Data_structure)
+
+### 선형 자료 구조(Linear)
+
+> 선형구조란 자료를 구성하는 데이터를 순차적으로 나열시킨 형태를 의미한다.
+
+### 비선형 자료 구조(Non-Linear)
+
+> 비선형구조란 하나의 자료 뒤에 여러개의 자료가 존재할 수 있는 것을 의미한다. 
+
+## **알고리즘**
+
+### 알고리즘 설계기법
 
 1. 완전검색(Brute Force) : 
     * 장점 : 반드시 답을 찾을 수 있다.
@@ -38,3 +59,44 @@
 > [**Comparison Sorting Algorithms**](https://www.toptal.com/developers/sorting-algorithms)
 
 ![**정렬 알고리즘 비교**](https://cdn-images-1.medium.com/max/1600/1*bPpvELo9_QqQsDz7CSbwXQ.gif)
+
+### DFS(Depth First Search)
+// TODO
+재귀, 반복 (부분집합 생성하기)
+재귀와 bit연산을 이용한 것의 시간차이 계산
+
+```java
+public class Z08_PowerSet2 {
+
+	static int arr[] = {3,6,7,1,5,4};
+	
+	public static void main(String[] args) {
+		
+		int n = arr.length;
+		
+		int bit[] = new int[n];
+		
+		int cnt = 0;
+		
+		for(int i = 0; i < (1 << n); ++i) { // 1<<n : 부분집합의 개수 ( 1을 n번 shift하면 2^n )
+			for(int j = 0; j < n; ++j) {
+				if((i & 1 << j) == 1 << j)
+					bit[j] = 1;
+				else 
+					bit[j] = 0;
+			}
+			
+			print(bit, cnt++);
+		}
+	}
+
+	public static void print(int[]bit, int cnt) {
+		System.out.print(cnt + "번 : ");
+		for(int i = 0 ; i < bit.length; ++i)
+			if(bit[i] == 1)
+				System.out.print(arr[i] + ",");
+		System.out.println();
+	}
+
+}
+```
