@@ -10,13 +10,39 @@ In computer science, a data structure is a data organization, management and sto
 
 > Refernece : [wiki : 자료구조](https://en.wikipedia.org/wiki/Data_structure)
 
+```
+                                                  +-------------------+
+                                                  |   Data Structure  |
+                                                  +-------------------+
+                                                            |
+                                   ---------------------------------------------------
+                                   |                                                 |
+                             +------------+                                   +------------+
+                             |   Linear   |                                   | Non-Linear |
+                             +------------+                                   +------------+
+                                   |                                                 |
+                ------------------------------------------                    ---------------
+                |            |            |              |                    |             |
+           +---------+  +---------+  +---------+  +-------------+         +--------+    +---------+
+           |  List   |  |  Stack  |  |  Queue  |  | Linked List |         |  Tree  |    |  Graph  |
+           +---------+  +---------+  +---------+  +-------------+         +--------+    +---------+  
+```
+
 ### 선형 자료 구조(Linear)
 
 > 선형구조란 자료를 구성하는 데이터를 순차적으로 나열시킨 형태를 의미한다.
 
+* 리스트(List)
+* 스택(Stack)
+* 큐(Queue)
+* 연결리스트(Linked List)
+
 ### 비선형 자료 구조(Non-Linear)
 
 > 비선형구조란 하나의 자료 뒤에 여러개의 자료가 존재할 수 있는 것을 의미한다. 
+
+* 트리(Tree)
+* 그래프(Graph)
 
 ## **알고리즘**
 
@@ -60,24 +86,35 @@ In computer science, a data structure is a data organization, management and sto
 
 ![**정렬 알고리즘 비교**](https://cdn-images-1.medium.com/max/1600/1*bPpvELo9_QqQsDz7CSbwXQ.gif)
 
-### DFS(Depth First Search)
-// TODO
-재귀, 반복 (부분집합 생성하기)
-재귀와 bit연산을 이용한 것의 시간차이 계산
+### 완전 검색 성능 비교(Brute force performance comparison) 
+<hr>
+
+알고리즘 문제를 해결하다보면 완전검색(Brute Force)를 이용하는 경우가 많다. 모든 경우의 수를 확인해야하는 경우에 대해 bit연산을 활용하여 모든 경우의 부분 집합을 만드는 방법과 재귀 호출(Recursive invocation)을 활용하는 방법 중 어떠한 방법이 효과적일까에 대해 고민하게 된다. 아래에 그에 대한 테스트 결과 코드를 작성하였다.
 
 ```java
-public class Z08_PowerSet2 {
 
-	static int arr[] = {3,6,7,1,5,4};
+import java.util.Random;
+
+public class PowerSet3 {
+
+	static int arr[] = {8,3,16,6,14,18,15,17,12,2,19,13,7,5,11,10,4,9,1,20}; // 1~24
+	static int n = arr.length; // 24
 	
-	public static void main(String[] args) {
-		
-		int n = arr.length;
-		
-		int bit[] = new int[n];
-		
-		int cnt = 0;
-		
+	public static void dfs(int[]bit,int idx) {
+		// exit condition
+		if(idx == n) return;
+		// include
+		bit[idx] = 1;
+		print(bit, idx);
+		dfs(bit,idx + 1);
+		// remove
+		bit[idx] = 0;
+		print(bit, idx);
+		dfs(bit,idx + 1);
+		return;
+	}
+	
+	public static void loop(int[]bit, int N) {
 		for(int i = 0; i < (1 << n); ++i) { // 1<<n : 부분집합의 개수 ( 1을 n번 shift하면 2^n )
 			for(int j = 0; j < n; ++j) {
 				if((i & 1 << j) == 1 << j)
@@ -85,18 +122,77 @@ public class Z08_PowerSet2 {
 				else 
 					bit[j] = 0;
 			}
-			
-			print(bit, cnt++);
+			print(bit, n);
 		}
 	}
 
-	public static void print(int[]bit, int cnt) {
-		System.out.print(cnt + "번 : ");
-		for(int i = 0 ; i < bit.length; ++i)
-			if(bit[i] == 1)
-				System.out.print(arr[i] + ",");
-		System.out.println();
+	public static void main(String[] args) {
+		int bit[] = new int[n];
+		
+		System.out.println("2^" + n + "(="+ (1<<n) +") cases test.\n");
+		
+		System.out.println("-----------loop start-----------");
+		long start = System.currentTimeMillis(); // loop start point
+
+		loop(bit,n);
+
+		long end = System.currentTimeMillis(); // loop end point
+		System.out.println( "For loop time : " + ( end - start )/1000.0 +"sec");
+		System.out.println("------------loop end------------\n");
+
+		System.out.println("---------Recursive start---------");
+		start = System.currentTimeMillis(); // recursive start point
+
+		dfs(bit,0);
+
+		end = System.currentTimeMillis(); // recursive end point
+		System.out.println( "Recursive time : " + ( end - start )/1000.0 +"sec");
+		System.out.println("----------Recursive end----------\n");
 	}
 
+	public static void print(int[]bit, int n) {
+		// No Execution
+		/*for(int i = 0 ; i < n; ++i)
+			if(bit[i] == 1)
+				System.out.print(arr[i] + " ");
+		*/
+	}
+}
+
+```
+
+24개(n)의 원소로 이루어진 배열의 완전검색(brute force)을 적용하여 프로그램을 실행시켰을 때, loop의 경우 각 케이스마다 경우의 수를 만들기 위해 n번의 loop를 돌아야하므로 2^24(=16777216) * 24(n) = 402,653,184(O(n2^n))번의 loop를 돌게된다. 재귀적(Recursive)으로 호출하였을 때에는 2^24 - 1(=16777215)번(O(2^n))의 재귀호출이 발생한다.
+
+```cmd
+2^24(=16777216) cases test.
+
+-----------loop start-----------
+For loop time : 0.879sec
+------------loop end------------
+
+---------Recursive start---------
+Recursive time : 0.031sec
+----------Recursive end----------
+```
+> 일반적으로 컴퓨터는 1초에 약 1억 번의 연산이 가능하다.
+
+사실 당연한 결과이지만 n=2^24(=16777216)인 경우에 대해 평균적으로 재귀 호출이 약 28배의 빠른 결과를 도출했다. 재귀 호출은 위와 같은 문제의 경우에 단순한 반복문보다 간결하고 유연한 코드를 작성할 수 있다는 것을 확인하였다.
+
+```java
+for(int i = 0; i < 2; ++i) {
+	bit[0] = i;
+	for(int j = 0; j < 2; ++j) {
+		bit[1] = j;
+		for(int k = 0; k < 2; ++k) {
+			bit[2] = k;
+			for(int l = 0; l < 2; ++l) {
+				bit[3] = l;
+				print(bit, n);
+			}
+		}
+	}
 }
 ```
+만약 n=4일 경우에 위와 같은 방식으로도 bit배열을 만들 수 있지만 이러한 코드는 for문의 개수가 n에 종속적이므로 n이 상수인 경우를 제외하면 구현이 불가능하다. (가능하다고 해도 n=24이면 24중 for문을 만들어야한다.) 
+
+따라서, 완전검색(Brute force) 방식을 이용하여 코딩할 때에는 **재귀 호출(Recursive) > 반복문(loop)** 임을 확인할 수 있었다.
