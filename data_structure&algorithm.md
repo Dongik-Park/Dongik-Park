@@ -89,7 +89,7 @@ In computer science, a data structure is a data organization, management and sto
 ### 완전 검색 성능 비교(Brute force performance comparison) 
 <hr>
 
-알고리즘 문제를 해결하다보면 완전검색(Brute Force)를 이용하는 경우가 많다. 모든 경우의 수를 확인해야하는 경우에 대해 bit연산을 활용하여 모든 경우의 부분 집합을 만드는 방법과 재귀 호출(Recursive invocation)을 활용하는 방법 중 어떠한 방법이 효과적일까에 대해 고민하게 된다. 아래에 그에 대한 테스트 결과 코드를 작성하였다.
+알고리즘 문제를 해결하다보면 완전검색(Brute Force)를 이용하는 경우가 많다. 모든 경우의 수를 확인해야하는 경우에 대해 bit연산을 활용하여 모든 경우의 부분 집합(Make subsets by for loop)을 만드는 방법과 재귀 호출(Recursive invocation)을 활용하는 방법 중 어떠한 방법이 효과적일까에 대해 고민하게 된다. 아래에 그에 대한 테스트 결과 코드를 작성하였다.
 
 ```java
 
@@ -115,7 +115,7 @@ public class PowerSet3 {
 	}
 	
 	public static void loop(int[]bit, int N) {
-		for(int i = 0; i < (1 << n); ++i) { // 1<<n : 부분집합의 개수 ( 1을 n번 shift하면 2^n )
+		for(int i = 0; i < (1 << n); ++i) { // 1<<n : subsets count ( 1 shifts n times = 2^n )
 			for(int j = 0; j < n; ++j) {
 				if((i & 1 << j) == 1 << j)
 					bit[j] = 1;
