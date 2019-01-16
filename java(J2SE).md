@@ -358,7 +358,7 @@ s == x : true
 
 Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
 
-![**constant pool**](http://blog.jamesdbloom.com/images_2013_11_17_17_56/JVM_Internal_Architecture_small.png)
+<img src="http://blog.jamesdbloom.com/images_2013_11_17_17_56/JVM_Internal_Architecture_small.png" alt="<JVM Internal Architecture>" style="width:825px;height:489px"/>
 
  위의 그림에서 프레임(Frame)은 피연산자(조작 명령)등이 존재하는 곳이며, 동적 연결(Dynamic linking)이 발생한다. 이 영역은 클래스와 멤버를 빠르게 추적하기 위해 상수 영역을 사용한다.
 
