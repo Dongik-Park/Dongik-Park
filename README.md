@@ -25,15 +25,19 @@
 
 * ### 자바 특징 (Java Characteristic)
 
+* ### 설치 (Installation)
+
+* ### 상수 영역 (Constant pool)
+
 * ### 실행 환경(Runtime environment)
 
 * ### 데이터 타입 (Data type)
 
 * ### 클래스 활용 (Class)
 
-* ### API (Application Programming Interface)
+* ### 상속과 다형성 (Inheritance & Polymorphism)
 
-* ### 설치 (Installation)
+* ### API (Application Programming Interface)
 
 * ### JUnit
 
