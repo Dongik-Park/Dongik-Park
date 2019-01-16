@@ -156,15 +156,15 @@ java.class.path에서 볼 수 있는 시스템 클래스 로더는 CLASSPATH 환
 > Reference : [wiki : Java class loader(자바 클래스로더)](https://en.wikipedia.org/wiki/Java_Classloader)
 
 #### 메모리 구조 (Memory Structure)
-        +---------------------------------------JVM Memory or Runtime Data Area--------------------------------------+
-        |                                                                                                            |
-        |       +----------+         +----------+        +----------+        +----------+        +----------+        |
-        |       |   Class  |         |          |        |   JVM    |        |          |        |  Native  |        |
-        |       | (Method) |         |   Heap   |        | Language |        |    PC    |        |  Method  |        |
-        |       |   Area   |         |          |        |  Stacks  |        | Registers|        |  Stacks  |        |
-        |       +----------+         +----------+        +----------+        +----------+        +----------+        |
-        |                                                                                                            |
-        +------------------------------------------------------------------------------------------------------------+
+      +---------------------------------------JVM Memory or Runtime Data Area--------------------------------------+
+      |                                                                                                            |
+      |       +----------+         +----------+        +----------+        +----------+        +----------+        |
+      |       |   Class  |         |          |        |   JVM    |        |          |        |  Native  |        |
+      |       | (Method) |         |   Heap   |        | Language |        |    PC    |        |  Method  |        |
+      |       |   Area   |         |          |        |  Stacks  |        | Registers|        |  Stacks  |        |
+      |       +----------+         +----------+        +----------+        +----------+        +----------+        |
+      |                                                                                                            |
+      +------------------------------------------------------------------------------------------------------------+
 
 * **Class(Method) area** : 메모리로 읽어온 클래스의 정보를 기록하는 곳으로 class 정보와 static 정보 등 초기화되는 대상 정보를 저장하고 GC(Garbage Collector)에 의해 관리된다.
 
@@ -358,7 +358,8 @@ s == x : true
 
 Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
 
-<img src="http://blog.jamesdbloom.com/images_2013_11_17_17_56/JVM_Internal_Architecture_small.png" alt="<JVM Internal Architecture>" style="width:825px;height:489px"/>
+
+![**constant pool**](https://docs.mendix.com/refguide/attachments/16714070/16844065.png)
 
  위의 그림에서 프레임(Frame)은 피연산자(조작 명령)등이 존재하는 곳이며, 동적 연결(Dynamic linking)이 발생한다. 이 영역은 클래스와 멤버를 빠르게 추적하기 위해 상수 영역을 사용한다.
 
@@ -375,9 +376,12 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
     ```   
     생성자는 객체 생성시 자동 호출되는 특별한 기능으로 주로 객체 초기화 작업을 수행한다. 정의하는 방식은 클래스와 이름이 동일하고 리턴 타입이 없으며, 반드시 존재해야 한다. 필요에 의해 개발자가 정의하지 않은 경우 컴파일러가 기본 생성자(Default constructor, No parameters)를 코드에 삽입한다. 
     
-    만약 parameter가 존재하는 생성자를 개발자가 정의하였을 경우에 컴파일러는 더이상 기본 생성자를 추가하지 않기 때문에 개발자가 코드에서 기본 생성자를 호출할 경우 에러가 발생할 수 있다. 따라서, 생성자를 정의할 때에는 기본 생성자도 같이 정의하는 것이 바람직하다. *추가적으로 기본 생성자를 정의하여 멤버 변수를 초기화할 때, 기본 값(default value)이 아닌 의미있는 값(meaningful value)으로 초기화하는 것이 바람직하다.*
+    만약 parameter가 존재하는 생성자를 개발자가 정의하였을 경우에 컴파일러는 더이상 기본 생성자를 추가하지 않기 때문에 개발자가 코드에서 기본 생성자를 호출할 경우 에러가 발생할 수 있다. 따라서, 생성자를 정의할 때에는 기본 생성자도 같이 정의하는 것이 바람직하다.
+    
+    *추가적으로 기본 생성자를 정의하여 멤버 변수를 초기화할 때, 기본 값(default value)이 아닌 의미있는 값(meaningful value)으로 초기화하는 것이 바람직하다.*
 
-    * this 참조 : 객체를 생성하면 그 객체의 참조(reference)를 저장하기 위한 this 참조가 자동 생성된다. 메소드나 멤버 변수등을 사용할 때 현재 수행중인 객체의 참조 정보를 가지고 있는 this를 활용한다. 메소드에서 사용되는 변수에 대해 JVM은 해당 변수가 로컬(local)로 존재하는지 확인하고 없을 경우 this 참조의 객체에 접근하여 변수를 확인한다. this 참조는 재정의 메소드(Override)의 동적 바인딩(Dynamic binding) 개념에 적용된다.
+    * this 참조 : 객체를 생성하면 그 객체의 참조(reference)를 저장하기 위한 this 참조가 자동 생성된다. 메소드나 멤버 변수등을 사용할 때 현재 수행중인 객체의 참조 정보를 가지고 있는 this를 활용한다. 
+    메소드에서 사용되는 변수에 대해 JVM은 해당 변수가 로컬(local)로 존재하는지 확인하고 없을 경우 this 참조의 객체에 접근하여 변수를 확인한다. this 참조는 재정의 메소드(Override)의 동적 바인딩(Dynamic binding) 개념에 적용된다.
 
 2. **메소드 (Method)**
     ```
@@ -385,13 +389,14 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
         // Function execute
     }
     ```
-    메소드는 객체가 가져야 할 기능을 구현한다. 이 때 필요한 데이터(Data)를 paramater list를 통해 받을 수 있다. 원하는 기능을 수행한 후에는 결과 값을 필요에 따라 method를 호출한 측에 return을 이용하여 결과를 반환한다. 자바의 경우 Reference 타입의 parameter를 전달할 때, 변수가 가지는 값이 참조 값(address)이므로 call by value 방식에 의해 참조 값이 전달된다. 즉, 일반적으로 모든 파라미터 데이터를 복사하는 call by value 방식이 아닌, 참조 값의 주소 값만을 복사하므로 **파라미터 전달 시 모든 데이터가 복사되지 않는다**.
+    메소드는 객체가 가져야 할 기능을 구현한다. 이 때 필요한 데이터(Data)를 paramater list를 통해 받을 수 있다. 원하는 기능을 수행한 후에는 결과 값을 필요에 따라 method를 호출한 측에 return을 이용하여 결과를 반환한다. 자바의 경우 Reference 타입의 parameter를 전달할 때, 변수가 가지는 값이 참조 값(address)이므로 call by value 방식에 의해 참조 값이 전달된다. 즉, 일반적으로 모든 파라미터 데이터를 복사하는 call by value 방식이 아닌, 참조 값의 주소 값만을 복사하므로 ***파라미터 전달 시 모든 데이터가 복사되지 않고 heap memory에 할당된 주소가 복사된다***.
      
      
      추가적으로, 자바에서는 다형성을 위해 메소드 오버로딩(Overloading)과 오버라이딩(Overriding)을 지원한다. 
     
     * 오버로딩(Overloading) : 한 클래스 내에 메소드 명이 같고 시그니처(signature, Method + parameters) 다르게 정의하여 동일한 이름으로 다양한 기능 수행을 가능하게 한다.
     * 오버라이딩(Overriding) : 상속 관계의 하위 클래스(Derived class)에서 부모 클래스(Base class)에서 물려받은 메소드 기능을 확장(Extend) 또는 변경(Update)한다.
+
 
 3. **접근 제어자 (Access modifier)**
 
@@ -401,6 +406,7 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
     (default) | O | O | 
     protected | O | O | O |
     public | O | O | O | O |
+    
     (O : accessible, X : inaccessible)
 
     * private : 같은 클래스 내에서만 접근 가능하다.
@@ -413,7 +419,11 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
 
     이외에도 추가적으로 주로 사용하는 Usage modifier(사용 제한자)에는 static, final, abstarct 등의 키워드가 존재한다. 
     
-    이 중 **static**의 경우 객체 생성 없이 사용할 경우에 활용하며 모든 객체가 공유한다는 의미를 포함한다. static block의 경우 클래스가 메모리에 로딩될 때 한번만 실행된다. 또한, static이 붙은 멤버 변수는 객체 instance 시 마다 여러번 생성되지 않고 여러 객체 instance가 공유하는 변수가 된다. 이 변수들은 객체 내부가 아닌 별도의 공간에 생성되며 클래스 로딩 시에 멤버가 생성되어 프로그램 종료 시까지 클래스와 동일하게 메모리에서 항상 상주하게 된다. 이러한 특성 때문에 객체가 생성되는 시점에 만들어지는 this, super 참조를 통해서는 static에 접근할 수 없다. 
+    * static : 객체 생성 없이 사용할 경우에 활용하며 모든 객체가 공유한다는 의미를 포함한다.static block의 경우 클래스가 메모리에 로딩될 때 한번만 실행된다. 
+    
+        또한, static이 붙은 멤버 변수는 객체 instance 시 마다 여러번 생성되지 않고 여러 객체 instance가 공유하는 변수가 된다. 이 변수들은 객체 내부가 아닌 별도의 공간에 생성되며 클래스 로딩 시에 멤버가 생성되어 프로그램 종료 시까지 클래스와 동일하게 메모리에서 항상 상주하게 된다. 
+        
+        이러한 특성 때문에 객체가 생성되는 시점에 만들어지는 this, super 참조를 통해서는 static에 접근할 수 없다. 
 
 4. **캡슐화 (Encapsulation)**
     
@@ -449,6 +459,7 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
         ```
     
     * 메소드 다형성 (Method polymorphism) : 메소드 호출 시 가상머신은 해당 메소드의 재정의(Overriding) 여부를 확인하고 생성된 객체에 대하여 가장 마지막에 Overriding 된 메소드를 호출한다.(*=**this** 참조에 우선하여 호출한다.*)
+
         ```java
         class Base{
             public void run(){
@@ -482,6 +493,7 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
         * 구현되지 않은 메소드(abstract)를 포함한다.
         * 상속을 받은 sub class가 모든 메소드를 재정의(Overriding)해야 한다. (Definition delegate)
         * 상속한 class 들의 명세서 역할로 사용한다.
+
 
         ```java
         interface Run{
