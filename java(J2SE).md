@@ -2,7 +2,7 @@
 
 ### **정의 (Concept)**
 
-> 데스크톱 및 서버, 최근의 고사양 임베디드 시스템을 위한 표준 자바 플랫폼으로 표준적인 컴퓨팅 환경을 지원하기 위한 자바 가상 머신 규격 및 API 집합을 포함하고 J2EE와 J2ME에 포함된다. (Reference :  [**wiki : J2SE**](https://en.wikipedia.org/wiki/Java_Platform,_Standard_Edition))
+> 데스크톱 및 서버, 최근의 고사양 임베디드 시스템을 위한 표준 자바 플랫폼으로 표준적인 컴퓨팅 환경을 지원하기 위한 자바 가상 머신 규격 및 API 집합을 포함하고 J2EE와 J2ME에 포함된다. (Reference :  [**wiki - J2SE**](https://en.wikipedia.org/wiki/Java_Platform,_Standard_Edition))
 
 ### **자바 특징 (Java Characteristic)**
 <hr>
@@ -137,7 +137,7 @@
 
   * 데이터 흐름 분석(Data flow analysis)에 기반한 자바 바이트코드 검증기(verifier)를 통해 스택 오버플로우(stack-overflow), 명령어 피연산자의 타입 규칙 위반, 필드 접근 규칙 위반, 지역 변수의 초기화 전 사용 등 많은 문제를 실행 전에 검증하여 실행 시 안전을 보장하고 별도의 부담을 줄여줌
 
-> Reference : [wiki : Java virtual machine(자바 가상 머신)](https://en.wikipedia.org/wiki/Java_virtual_machine)
+> Reference : [wiki - Java virtual machine(자바 가상 머신)](https://en.wikipedia.org/wiki/Java_virtual_machine)
 
 #### 클래스 로더 (Class loader)
 
@@ -153,7 +153,7 @@
 
 java.class.path에서 볼 수 있는 시스템 클래스 로더는 CLASSPATH 환경 변수에 매핑된다. 
 
-> Reference : [wiki : Java class loader(자바 클래스로더)](https://en.wikipedia.org/wiki/Java_Classloader)
+> Reference : [wiki - Java class loader(자바 클래스로더)](https://en.wikipedia.org/wiki/Java_Classloader)
 
 #### 메모리 구조 (Memory Structure)
       +---------------------------------------JVM Memory or Runtime Data Area--------------------------------------+
@@ -188,7 +188,7 @@ java.class.path에서 볼 수 있는 시스템 클래스 로더는 CLASSPATH 환
 * 쓰레기 수집이 일어나는 타이밍이나 점유 시간을 미리 예측하기 어렵다.(unpredictable collect time) 때문에 프로그램이 예측 불가능하게 일시적으로 정지할 수 있다. 이런 특성은 특히 실시간 시스템에는 적합하지 않다.
 * 할당된 메모리가 해제되는 시점을 알 수 없다.(unpredictable memory free time) 자원 할당과 변수 초기화를 일치하는 RAII(Resource Acquisition is Initialization) 스타일의 프로그래밍에서는, 이것은 자원 해제 시점을 알 수 없다는 것을 의미한다.
 
-> Reference : [wiki : Garbage Collector(가비지 콜렉터, 쓰레기 수집가)](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science))
+> Reference : [wiki - Garbage Collector(가비지 콜렉터, 쓰레기 수집가)](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science))
 
 #### JIT 컴파일러 (Just-In-Time, JIT compiler)
 
@@ -205,7 +205,7 @@ JIT 컴파일러는 인터프리트(Interpret) 방식과 정적 컴파일(static
 
 인터프리터는 컴파일된 프로그램들에 비해 느리게 실행되지만 줄 단위로 번역, 실행되기 때문에 시분할 시스템이나 대화형 시스템에 유용하며 원시 프로그램의 변화에 대한 반응이 빠르다.
 
-> Reference : [wiki : Interpreter(인터프리터)](https://en.wikipedia.org/wiki/Interpreter_(computing))
+> Reference : [wiki - Interpreter(인터프리터)](https://en.wikipedia.org/wiki/Interpreter_(computing))
 
 #### JRE (Java Runtime Environment)
 
@@ -286,7 +286,7 @@ Person이라는 이름의 클래스를 생성자를 이용하여 heap memory에 
     
 
 
-### **상수 영역(constant pool)**
+### **상수 영역 (Constant pool)**
 <hr>
 
 ```java
@@ -370,7 +370,7 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
 
 1. **생성자 (Constructor)**
      ```
-    [Modifier] class identifier(...){
+    [Modifier] class_identifier(...){
         // Initializing
     }
     ```   
@@ -429,6 +429,14 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
     
     클래스 설계 시에 데이터와 기능을 클래스에 넣어 설계하고, 중요한 데이터나 내부 구현을 숨기고(private) 필요한 기능만 노출(public)시켜 정의하는 기법을 캡슐화(Encapsulation)이라고 한다.
 
+5. **결합도(Coupling) & 응집도(Cohesion)**
+
+    * 결합도(Coupling) : SW 코드의 한 요소가 다른 요소와의 의존 정도를 의미한다. 결합도가 높을 경우 연관된 클래스에 수정 및 변경이 발생하면 연관된 요소 또한 수정 및 변경해야 하므로 클래스 간의 이해도 어려울 뿐더러 재사용 또한 힘들다. 
+
+    * 응집도(Cohesion) : SW 코드의 한 요소가 특정 목적을 위해 얼마나 밀접하게 연관된 기능들만 모여서 구현되어 있는지를 의마한다. 응집도가 높을수록 재사용이 용이하므로 유지보수성이 높아진다.
+    
+    > 따라서, 클래스를 설계할 때에는 클래스 간의 결합도(low coupling)을 낮추고, 각 클래스는 높은 응집도(high cohesion)를 가져서 필요한 데이터와 기능만 포함하도록 클래스를 설계해야 한다.
+
 ### **상속과 다형성(Inheritance & Polymorphism)**
 <hr>
 
@@ -453,7 +461,7 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
 
     다형성(Polymorphism)은 객체 다형성(Object polymorphism)과 메소드 다형성(Method polymorphism)으로 구분된다.
 
-    * 객체 다형성 (Object polymorphism) : sub 객체 생성시 super도 같이 생성되어지기 때문에 memory에 존재하는 supert type으로 변수를 선언할 수 있다.
+    * 객체 다형성 (Object polymorphism) : sub 객체 생성시 super도 같이 생성되어지기 때문에 memory에 존재하는 super type으로 변수를 선언할 수 있다.
         ```java
         Base derived = new Derived();
         ```
@@ -532,7 +540,7 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
     "The principle of information hiding describes the role of programming interfaces as enabling modular programming by hiding the implementation details of the modules so that users of modules need not understand the complexities inside the modules."*
 * **java.lang API** : 표준 API의 package 구조로 자바의 가장 기본적인 클래스를 제공한다. 대표적으로 자바의 모든 클래스가 기본적으로 상속받는 Object클래스가 이에 해당한다. 이 클래스에서는 모든 클래스의 공통적인 기능을 정의하고, 자주 사용되는 Method를 정의하여 필요 시 Overriding(재정의)하도록 권장한다. ex) toString(), hashCode(), equals()..
 
-> Reference : [API](https://en.wikipedia.org/wiki/Application_programming_interface)
+> Reference : [wiki - API](https://en.wikipedia.org/wiki/Application_programming_interface)
 
 ### **JUnit**
 <hr>
