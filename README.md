@@ -5,6 +5,18 @@
 
 * ### 2. 프로세스와 쓰레드의 차이(Difference between process and thread)
 
+* ### 3. 스레드 동기화 방식 (Thread synchrozied mechanism)
+
+* ### 4. 프로세스 간 자원 공유 (Sharing resources between processes)
+
+* ### 5. 세마포어는(Counting semaphore)?
+
+* ### 6. 뮤텍스는? (Mutex,binary semaphore)
+
+* ### 7. Monitor 기법
+
+* ### 8. 레이스 컨디션은 무엇인가?
+
 ## **알고리즘(Algorithm)**
 
 * ### 알고리즘 설계기법
