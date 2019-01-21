@@ -42,20 +42,20 @@
 
 ## 3. 스레드 동기화 방식 (Thread synchrozied mechanism)
 
-- Exit/join, Mutex, Reader-writer lock, Condition Variable, Spin lock, Barrier, Semaphore를 활용한다. 세마포어는 Wait(lock연산)와 signal(unlock연산)이 존재한다. 
-- 각 스레드가 lock을 획득할 수 없는 상태에서 lock을 시도하여 영원이 교착되는 현상이 발생한다.
+Exit/join, Mutex, Reader-writer lock, Condition Variable, Spin lock, Barrier, Semaphore를 활용한다. 세마포어는 Wait(lock연산)와 signal(unlock연산)이 존재한다. 
+각 스레드가 lock을 획득할 수 없는 상태에서 lock을 시도하여 영원이 교착되는 현상이 발생한다.
 
 ## 4. 프로세스 간 자원 공유 (Sharing resources between processes)
-- 시그널, Local IPC와 Remote IPC, 병행 서버 모델, RPC 등으로 프로세스 간 통신할 수 있다. 
-- 하나의 OS 위에서 수행되는 시그널은 인터럽트를 활용한 통신이고 Local IPC에서 파이프(단방향통신)를 이용한 자원 공유와 공유 메모리(양방향통신)에서 세마포어와 같은 동기화 메커니즘을 통해 자원을 공유할 수 있다. 또한, 안드로이드처럼 서버 process의 호출을 지원하는 API가 내장되어 있는 Remote IPC도 있다.
+시그널, Local IPC와 Remote IPC, 병행 서버 모델, RPC 등으로 프로세스 간 통신할 수 있다. 
+하나의 OS 위에서 수행되는 시그널은 인터럽트를 활용한 통신이고 Local IPC에서 파이프(단방향통신)를 이용한 자원 공유와 공유 메모리(양방향통신)에서 세마포어와 같은 동기화 메커니즘을 통해 자원을 공유할 수 있다. 또한, 안드로이드처럼 서버 process의 호출을 지원하는 API가 내장되어 있는 Remote IPC도 있다.
 
 ## 5. 세마포어는(Counting semaphore)?
-- 여러 개의 프로세스가 공유 자원에 동시에 접근할 때, 하나의 프로세스만 한 개의 자원을 점유하도록 허용하는 제한하는 메커니즘. 동시에 리소스에 접근할 수 있는 '허용 가능한 Counter의 갯수'를 가지고 있다.
+여러 개의 프로세스가 공유 자원에 동시에 접근할 때, 하나의 프로세스만 한 개의 자원을 점유하도록 허용하는 제한하는 메커니즘. 동시에 리소스에 접근할 수 있는 '허용 가능한 Counter의 갯수'를 가지고 있다.
 
 ## 6. 뮤텍스는? (Mutex,binary semaphore)
 한 공유자원을 여러 스레드가 접근하고자 할 때, 임의의 한 순간에 한 스레드만 접근할 수 있도록 제어한다. 즉, 한 개의 스레드만 critical section에 진입하도록 원자적 연산(lock)을 지원하고 다른 스레드들은 unlock할 때까지 대기한다. 자바의 synchronized는 이렇게 동작한다.
 
- 우선 뮤텍스, 모니터와 세마포어의 차이는 개념적으로 전자(뮤텍스,모니터)는 상호배제(
+우선 뮤텍스, 모니터와 세마포어의 차이는 개념적으로 전자(뮤텍스,모니터)는 상호배제(
 Mutual exclusion)를 함으로써 임계구역(critical section)에 하나의 스레드만 들어갈 수 있다는 것이고 후자(세마포어)는 프로세스 카운트를 기준으로 하기 때문에 여러개의 스레드의 진입이 가능하다.
 
 ## 7. Monitor 기법
