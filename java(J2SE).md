@@ -123,7 +123,7 @@
 
 #### JVM (Java Virtual Machine)
 
-  자바 바이트코드(byte code)를 실행할 수 있는 주체로 바이트코드 검증기(bytecode verifier)ㄹ,ㄹ 거쳐 인터프리터(Interpreter)와 JIT 컴파일 방식으로 다른 컴퓨터 위에서 바이트코드를 실행할 수 있도록 구현된다.
+  자바 바이트코드(byte code)를 실행할 수 있는 주체로 바이트코드 검증기(bytecode verifier)를 거쳐 인터프리터(Interpreter)와 JIT 컴파일 방식으로 다른 컴퓨터 위에서 바이트코드를 실행할 수 있도록 구현된다.
 
   * 스택 기반의 가상 머신(Stack based virtual machine)
 
