@@ -19,6 +19,8 @@
 
 ## **알고리즘(Algorithm)**
 
+* ### 자료구조
+
 * ### 알고리즘 설계기법
 
 ## **객체 지향 프로그래밍(Object Oriented Programming, OOP)**
