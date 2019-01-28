@@ -78,7 +78,7 @@ In computer science, a data structure is a data organization, management and sto
 선택정렬 | O(n^2) | O(n^2) | 1 | 비교와 교환 | X | 교환 횟수가 버블, 삽입에 비해 적다
 삽입정렬 | O(n^2) | O(n^2) | 1 | 비교와 교환 | O | n의 개수가 적을때 효과적이다
 퀵정렬 | O(nlogn) | O(n^2) | logn ~ n | 분할정복 | X | 평균 속도가 가장 빠르다
-병합정렬 | O(nlogn) | O(nlogn) | n | 비교와 교환 | O | 연결 리스트의 경우 가장 효과적인 방법
+병합정렬 | O(nlogn) | O(nlogn) | n |  | O | 연결 리스트의 경우 가장 효과적인 방법
 카운팅정렬 | O(n+k) | O(n+k) | n | 비교환 방식 | O | n이 비교적 작을 때만 가능하다
 힙 정렬 | O(nlogn) | O(nlogn) | 1 | 분할정복 | X | 평균 계산 속도에서 퀵정렬 보다 느리다
 
