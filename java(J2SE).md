@@ -361,6 +361,8 @@ Constant pool(상수 영역)은 이외에도 다양한 기능을 수행한다.
 
 ![**constant pool**](https://docs.mendix.com/refguide/attachments/16714070/16844065.png)
 
+http://blog.jamesdbloom.com/JVMInternals.html
+
  위의 그림에서 프레임(Frame)은 피연산자(조작 명령)등이 존재하는 곳이며, 동적 연결(Dynamic linking)이 발생한다. 이 영역은 클래스와 멤버를 빠르게 추적하기 위해 상수 영역을 사용한다.
 
  각 프레임은 런타임 상수 영역(Runtime constant pool)에 대한 참조는 동적 연결을 지원하는 역할을 한다. 자바의 경우 컴파일 될 때에 변수 및 메소드에 대한 모든 참조가 클래스의 상수 영역에 기호 참조(symbolic reference)로 저장된다. 기호식 참조는 실제 메모리 위치를 가리키는 참조가 아닌 논리적 참조를 의미한다.
