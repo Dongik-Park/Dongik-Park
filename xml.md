@@ -120,6 +120,89 @@ SAX 이벤트 핸들러의 기본 인터페이스는 다음과 같다.
 
 Default Handler를 상속받아 필요한 경우 이벤트 처리 메소드를 재정의할 수 있다.
 
+```java
+/**
+  * 문서 시작 시 호출된다.
+  */
+@Override
+public void startDocument() throws SAXException {
+    System.out.println("Document starts.");
+}
+/**
+  * 문서 종료 시 호출된다.
+  */
+@Override
+public void endDocument() throws SAXException {
+    System.out.println("Document ends.");
+}
+/**
+  * Element 시작 시 호출된다.
+  */
+@Override
+public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    switch (qName) {
+    case "booklist":
+        System.out.println("<booklist>");
+        break;
+    case "isbn":
+        System.out.print("		<isbn>");
+        break;
+    case "book": // 속성이 존재하는 tag
+        System.out.println("	<book " + attributes.getQName(0) + "='" + attributes.getValue(0)+"'>");
+        break;
+    case "title":
+        System.out.print("		<title>");
+        break;
+    case "publisher":
+        System.out.print("		<publisher>");
+        break;
+    case "price":
+        System.out.print("		<price>");
+        break;
+    default:
+        System.out.print("		<others>");
+        break;
+    }
+}
+/**
+  * Element 종료 시 호출된다.
+  */
+@Override
+public void endElement(String uri, String localName, String qName) throws SAXException {
+    switch (qName) {
+    case "booklist":
+        System.out.println("</booklist>");
+        break;
+    case "isbn":
+        System.out.println("</isbn>");
+        break;
+    case "book":
+        System.out.println("	</book>");
+        break;
+    case "title":
+        System.out.println("</title>");
+        break;
+    case "publisher":
+        System.out.println("</publisher>");
+        break;
+    case "price":
+        System.out.println("</price>");
+        break;
+    default:
+        System.out.println("</others>");
+        break;
+    }
+}
+/**
+  * Text 만날 시 호출된다.
+  */
+@Override
+public void characters(char[] ch, int start, int length) throws SAXException {
+    System.out.print(new String(ch, start, length).trim());
+}
+```
+
+
 ### **DOM (Document Object Model)**
 
 DOM은 특정 브라우저나 구현언어에 의존적이지 않는 프로그래밍을 위한 IDL(Interface Definition Language) 기술로 API가 설계되었다. DOM을 사용하게 되면 언어에 구분없이 동일한 스펙으로 메소드를 사용하게 되는 결과를 갖게 된다. 기본적으로 DOM은 XML 문서를 객체로 조작하고 접근하는 데에 필요한 최소한의 인터페이스만을 정의한다. 또한, 문서의 생성, 탐색, 내용 추가, 삭제, 수정 기능을 제공한다.
