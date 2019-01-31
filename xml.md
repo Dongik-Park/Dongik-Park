@@ -95,7 +95,7 @@ XMl은 tag 이름을 사용자가 임의로 정할 수 있기 때문에 여러 �
 
 ### **SAX (Simple API for XML)**
 
-SAX는 XML 문서를 파싱하는 도중 발생하는 이벤트에 의해 작동한다.
+SAX는 XML 문서를 파싱하는 도중 발생하는 이벤트('<>'를 만나거나 '</>'를 만나는 경우)에 의해 작동한다.
 
 * Serial access mechanism
 
@@ -105,11 +105,22 @@ SAX는 XML 문서를 파싱하는 도중 발생하는 이벤트에 의해 작동
 
 * Searchable only
 
+DOM이 random access가 가능한 반면 SAX는 serial access만 가능하다.
+
 #### SAX Event handler
 
 SAX parser는 XMLReader 인터페이스를 구현하며, parse() 메소드에 의해 작동을 시작한다. 이후 xml 문서를 파싱하는 도중 발생하는 정상 또는 에러 상황에 이벤트를 발생시키고 핸들러에게 처리를 위임한다.
 
-### **DOM**
+SAX 이벤트 핸들러의 기본 인터페이스는 다음과 같다.
+
+* DTD Handler : DTD 내용 중 NOTATION 선언, 언파스트 ENTITY 선언
+* ContentHandler : XML 문서내의 element, text, PI
+* Entity Resolver : DTD나 XML 문서 내용 중 외부 파스트 ENTITY 참조
+* ErrorHandler : error 처리
+
+Default Handler를 상속받아 필요한 경우 이벤트 처리 메소드를 재정의할 수 있다.
+
+### **DOM (Document Object Model)**
 
 DOM은 특정 브라우저나 구현언어에 의존적이지 않는 프로그래밍을 위한 IDL(Interface Definition Language) 기술로 API가 설계되었다. DOM을 사용하게 되면 언어에 구분없이 동일한 스펙으로 메소드를 사용하게 되는 결과를 갖게 된다. 기본적으로 DOM은 XML 문서를 객체로 조작하고 접근하는 데에 필요한 최소한의 인터페이스만을 정의한다. 또한, 문서의 생성, 탐색, 내용 추가, 삭제, 수정 기능을 제공한다.
 
@@ -136,3 +147,132 @@ Document| #document | null
 DocumentType| DTD 이름 | null
 DocumentFragment| #document-fragment|null
 Notation |선언 이름|null
+
+#### 요소 추출
+
+```java
+/**
+  * 지정된 노드 아래 노드들 추출하는 방법
+  * @param n 지정된 노드
+  */
+public static void getNode(Node n) {
+    for(Node ch = n.getFirstChild(); ch != null; ch = ch.getNextSibling()) {
+        System.out.println(ch.getNodeName());
+    }
+}
+/**
+  * 지정된 노드 아래 노드들 추출하는 방법
+  * @param n 지정된 노드
+  */
+public static void getNode2(Node n) {
+    NodeList list = n.getChildNodes();
+    for(int i = 0; i < list.getLength(); ++i) {
+        System.out.println(list.item(i).getNodeName());
+    }
+}
+/**
+  * 지정된 노드 아래 element명만 추출
+  * @param n 지정된 노드
+  */
+public static void getNode3(Node n) {
+    for(Node ch = n.getFirstChild(); ch != null; ch = ch.getNextSibling()) {
+        if(ch.getNodeType() == Node.ELEMENT_NODE)
+            System.out.println(ch.getNodeName());
+    }
+}
+/**
+ * 전체 노드 검색
+ * @param n 지정된 노드
+ */
+public static void getNode4(Node n) {
+	for (Node ch = n.getFirstChild(); ch != null; ch = ch.getNextSibling()) {
+		if (ch.getNodeType() == Node.ELEMENT_NODE) {
+			System.out.println(ch.getNodeName());
+			getNode4(n); // recursive current node
+		}
+	}
+}
+/**
+ * 공백을 제외한 텍스트만 추출
+ * @param n 지정된 노드
+ */
+public static void getNode5(Node n) {
+	for (Node ch = n.getFirstChild(); ch != null; ch = ch.getNextSibling()) {
+		if (ch.getNodeType() == Node.ELEMENT_NODE) {
+			System.out.println(ch.getNodeName());
+			getNode5(n); // recursive current node
+		}
+		else if(ch.getNodeType() == Node.TEXT_NODE && ch.getNodeValue().trim().length() != 0) {
+			System.out.println(ch.getNodeValue());
+		}
+	}
+}
+```
+
+이외에도 DOM 방식은 여러가지 추가, 삭제 기능 등을 지원한다.
+
+```java
+/**
+ * 지정된 노드에 element를 추가하는 메소드
+ * @param n 지정된 노드
+ */
+public static void addNode(Node n) {
+    for (Node ch = n.getFirstChild(); ch != null; ch = ch.getNextSibling()) {
+    if (ch.getNodeType() == Node.ELEMENT_NODE) {
+            if(ch.getNodeName().equals("node name")) {
+                Document doc = ch.getOwnerDocument(); 
+                Element comp = doc.createElement("create node name"); // create node element
+                Text txt = doc.createTextNode("create text value"); // create text node
+                ch.appendChild(comp); 
+                comp.appendChild(txt);
+            }
+            addNode(n); // recursive current node
+        }
+    }
+}
+/**
+ * 지정된 노드에 element를 삭제하는 메소드
+ * @param n 지정된 노드
+ */
+public static void deleteNode(Node n) {
+    for (Node ch = n.getFirstChild(); ch != null; ch = ch.getNextSibling()) {
+        if (ch.getNodeType() == Node.ELEMENT_NODE) {
+            if(ch.getNodeName().equals("node name")) {
+                Node parent = ch.getParentNode(); // get parent
+                parent.removeChild(ch); // remove current
+            }
+            deleteNode(n); // recursive current node
+        }
+    }
+}
+/**
+ * 지정된 노드에 속성을 추가하는 메소드
+ * @param n 지정된 노드
+ */
+public static void addNodeAttribute(Node n) {
+    for (Node ch = n.getFirstChild(); ch != null; ch = ch.getNextSibling()) {
+        if (ch.getNodeType() == Node.ELEMENT_NODE) {
+            if(ch.getNodeName().equals("node name")) {
+                Element element = (Element)ch;
+                element.setAttribute("attribute name", "value");
+            }
+            addNodeAttribute(n); // recursive current node
+        }
+    }
+}
+/**
+ * 지정된 노드에 속성을 삭제하는 메소드
+ * @param n 지정된 노드
+ */
+public static void deleteNodeAttribute(Node n) {
+    for (Node ch = n.getFirstChild(); ch != null; ch = ch.getNextSibling()) {
+        if (ch.getNodeType() == Node.ELEMENT_NODE) {
+            if(ch.getNodeName().equals("node name")) {
+                NamedNodeMap attributeMap = ch.getAttributes();
+                attributeMap.removeNamedItem("attribute name");
+            }
+            deleteNodeAttribute(n); // recursive current node
+        }
+    }
+}
+```
