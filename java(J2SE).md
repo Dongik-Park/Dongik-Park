@@ -544,5 +544,3 @@ http://blog.jamesdbloom.com/JVMInternals.html
 
 > Reference : [wiki - API](https://en.wikipedia.org/wiki/Application_programming_interface)
 
-### **JUnit**
-<hr>
