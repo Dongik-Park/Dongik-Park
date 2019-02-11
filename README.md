@@ -53,8 +53,6 @@
 
 * ### API (Application Programming Interface)
 
-* ### JUnit
-
 ## **Java Platform(Java Enterprise Edition, J2EE)**
 
 * ### MVC 패턴
