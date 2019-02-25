@@ -78,7 +78,7 @@ In computer science, a data structure is a data organization, management and sto
 선택정렬 | O(n^2) | O(n^2) | 1 | 비교와 교환 | X | 교환 횟수가 버블, 삽입에 비해 적다
 삽입정렬 | O(n^2) | O(n^2) | 1 | 비교와 교환 | O | n의 개수가 적을때 효과적이다
 퀵정렬 | O(nlogn) | O(n^2) | logn ~ n | 분할정복 | X | 평균 속도가 가장 빠르다
-병합정렬 | O(nlogn) | O(nlogn) | n |  | O | 연결 리스트의 경우 가장 효과적인 방법
+병합정렬 | O(nlogn) | O(nlogn) | n | 비교와 교환 | O | 연결 리스트의 경우 가장 효과적인 방법
 카운팅정렬 | O(n+k) | O(n+k) | n | 비교환 방식 | O | n이 비교적 작을 때만 가능하다
 힙 정렬 | O(nlogn) | O(nlogn) | 1 | 분할정복 | X | 평균 계산 속도에서 퀵정렬 보다 느리다
 
@@ -219,3 +219,98 @@ for(int i = 0; i < 2; ++i) {
 3. 깊이우선탐색(DFS)으로는 경우의 수가 너무 많은 문제(N!)의 경우 백트래킹(Backtracking)을 활용한다.
 
 4. 백트래킹(Backtracking)을 적용하면 경우의 수가 줄어들지만 최악의 경우에는 여전히 지수 시간(Exponential time)이 소요된다.
+
+### **DP(Dynamic Programming)**
+<hr>
+
+동적 계획(Dynamic Programming) 알고리즘은 그리디(Greedy) 알고리즘처럼 ***최적화 문제*** 를 해결하는 알고리즘이다. DP에서는 부분 문제(sub problem)들이 연관되어 있고 모든 부분 문제를 한번만 계산하고 결과를 저장하여 재사용한다. DP는 작은 부분 문제들로부터 상향식 방법(bottom-up)으로 접근한다.
+
+- 최적화 문제 : 특정한 해가 아닌 존재할 수 있는 여러 해 중 어떤 최적의 해를 구하는 문제
+
+동적 계획법 적용 요건에는 다음과 같은 두 가지 구조가 존재한다.
+
+1. 최적 부분문제 구조(Optimal substructure)
+
+	- 최적화의 원칙이란 어떤 문제에 대한 해가 최적일 때 그 해를 구성하는 작은 문제들의 해 역시 최적이어야 한다.
+
+2. 중복 부분문제 구조(Overlapping subproblems)
+ 
+	- DP는 큰 문제를 이루는 작은 문제를 먼저 해결하고 작은 문제들의 최적 해(Optimal solution)를 이용하여 순환적으로 큰 문제를 해결한다. 이때 DP에서는 이미 해결된 작은 문제들의 해를 어떤 저장 공간에 저장하여 중복 계산을 피하게 된다. 
+
+#### Memoization (메모이제이션)
+
+Memoization은 컴퓨터 프로그램을 실행할 때 이전에 계산한 값을 메모리에 저장해서 매번 다시 계산하지 않도록하여 전체적인 실행속도를 빠르게 하는 기술로 DP의 핵심 기술이 된다.
+
+피보나치 수를 구하는 알고리즘에서 fibo1(n)의 값을 계산하자마자 저장하면(memoize), 실행시간을 O(n)으로 줄일 수 있다.
+
+```java
+ // fibo by recursive
+ int fiboByRecursive(n){
+	 if(n > 2) 
+	 	return n;
+	 else 
+	 	return fibo(n - 1) + fibo(n - 2);
+ } 
+
+// fibo by memoization
+// 1. allocate memo array
+// 2. initialize 0 in all memo elements
+// 3. memo[1] = 1
+int fiboByMemoization(n){
+	if(n > 2 && memo[n] == 0)
+		memo[n] = fiboByMemoization(n - 1) + fiboByMemoization(n - 2);
+	return memo[n];
+}
+```
+
+메모이제이션이라고 해서 DP라고 정의할 수는 없다. 메모이제이션이 DP의 핵심 기술인 것은 맞지만 DP는 메모이제이션이라는 핵심 기술을 활용한 문제 해결 방법이다.
+
+```java
+// fibo by dynamic programming
+int fiboByDP(n){
+	f[0] = 0;
+	f[1] = 1;
+
+	for(int i = 2; i <= n; ++i)
+		f[i] = f[i - 1] + f[i - 2];
+
+	return f[n]; 
+}
+```
+
+수학에서 흔히 사용되는 조합 공식 nCk = n! / (n - k)! * k!은 다음과 같이 두 가지 공식으로 구현할 수 있다.
+
+첫번째는 nCk = n! / (n - k)! * k!에 근거하여 값을 도출하는 방법이다.
+```java
+// Factorial array making
+public static void factorial() { 
+	factorial[0] = 1;
+	for (int i = 1; i < factorial.length; i++) {
+		factorial[i] = factorial[i - 1] * i;
+	}
+}
+// nCr = n! / (n - r)! * r!
+public static long nCr(int n, int r) { // 조합 공식
+	long res = 0L;
+	res = factorial[n] / (factorial[n - r] * factorial[r]);
+	return res;
+}
+
+```
+두번째는 DP를 활용하여 값을 도출하는 방법이다.
+```java
+public static int nCk(int n, int k) {
+	int B[][] = new int[n + 1][n + 1];
+
+	for(int i = 0; i <= n; ++i)
+		for(int j = 0; j <= Math.min(i, k); ++j) //  파스칼의 삼각형을 활용하여 연산 수를 절반으로 줄일 수 있다.
+			if(j == 0 || j == i)
+				B[i][j] = 1;
+			else {
+				B[i][j] = B[i - 1][j - 1] + B[i - 1][j];
+			}
+	
+	return B[n][Math.min(n - k, k)];
+}
+```
+Reference : [wiki - 파스칼의 삼각형](https://ko.wikipedia.org/wiki/%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%98_%EC%82%BC%EA%B0%81%ED%98%95)
