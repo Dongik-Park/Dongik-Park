@@ -24,7 +24,7 @@ J2EE의 다양한 스펙 집합 중 대표적인 것들은 다음과 같다.
 
 Reference : [wiki - J2EE](https://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition)
 
-## MVC(Model-View-Controller) 패턴
+## MVC 패턴
 
 모델-뷰-컨트롤러(Model–View–Controller, MVC)는 소프트웨어 공학에서 사용되는 소프트웨어 디자인 패턴이다. 이 패턴을 성공적으로 사용하면, **사용자 인터페이스로부터 비즈니스 로직을 분리**하여 애플리케이션의 시각적 요소나 그 이면에서 실행되는 비즈니스 로직을 서로 영향 없이 쉽게 고칠 수 있는 애플리케이션을 만들 수 있다. MVC에서 모델은 애플리케이션의 정보(데이터)를 나타내며, 뷰는 텍스트, 체크박스 항목 등과 같은 사용자 인터페이스 요소를 나타내고, 컨트롤러는 데이터와 비즈니스 로직 사이의 상호동작을 관리한다.
 
@@ -101,7 +101,39 @@ Apache Tomcat의 클라이언트 요청 처리 구조는 다음 그림과 같은
 
 Reference : https://gmlwjd9405.github.io/2018/10/27/webserver-vs-was.html
 
+## Servlet (서블릿)
+
+Servlet(서블릿)은 Server Side Applet의 약자로 웹 서버, 즉 컨테이너에서 수행되는 Java 클래스이다.
+
+- 서버 응용 프로그램을 구성하는 Servelt은 서버 프로토콜 종류에 관계없이 FTP, SMTP, HTTP 등 여러 가지 애플리케이션 기반의 응용 프로그램 개발이 가능하다.
+
+- Serlvet은 클라이언트 요청에 대해 서블릿 컨테이너에 의해 독립된 스레드 기반으로 서비스 되는 기술로서 다중 스레드 서비스가 기본적으로 지원된다.
+
+- Servlet Container는 클라이언트에서 전송되는 Servlet request와 resonponse에 대한 처리를 담당한다.
+
+- Servlet Container로는 오픈 소스인 Apahce Tomcat이 대표적이며, 상용화된 WAS로는 WebLogic, WebSphere 등이 있다.
+
+### Servlet & jsp history
+
+1. Servlet 소스 내에 HTML 코드 포함으로 인한 Business와 Presentation Logic이 분리되지 않았다.
+
+2. jsp가 등장하여 Servlet의 HTML 소스를 처리하였다.
+
+3. jsp scripting 기술의 한계로 Java 코드와 HTML 및 JS 코드가 혼재하여 Presenstation 관리는 쉬워졌지만 프로그램 관리가 더 복잡해졌다.
+
+4. Model-2 Architecture가 등장하여 Model(DAO,DTO), View(jsp,jstl), Controller(Servlet) 구조가 등장하여 유지보수 및 확장성을 제고하였다.
+
+5. Struts, Spring framework등과 같은 오픈소스 프레임워크 등장하였다.
 
 
+### Servlet life cycle
+
+![image](https://www.tutorialspoint.com/servlets/images/servlet-lifecycle.jpg)
+
+- init() : Sevlet 초기화 관련 부분을 수행할 수 있도록 내부적으로 자동 호출되는 메소드이다.
+
+- service() : init()호출 후에 Servlet instance의 service()를 호출하여 클라이언트 요청을 받아 처리할 수 있도록하며 ServletRequset 객체와 ServletResponse 객체를 매개변수로 전달한다.
+
+- destroy() : 클라이언트 요청을 처리한 Servlet thread는 gc에 의해 처리되기 전 마무리 작업을 위해 destroy()를 호출한다.
 
 ## Spring Framework
