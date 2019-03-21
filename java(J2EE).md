@@ -136,4 +136,71 @@ Servlet(서블릿)은 Server Side Applet의 약자로 웹 서버, 즉 컨테이�
 
 - destroy() : 클라이언트 요청을 처리한 Servlet thread는 gc에 의해 처리되기 전 마무리 작업을 위해 destroy()를 호출한다.
 
+## JSP (Java Server Page)
+
+ jsp는 웹 페이지를 동적으로 처리할 수 있는 기술 중의 하나로 Servlet 프로그램의 기능을 HTML 파일 내에 스크립트로 구현 가능하다. 이를 통해 Presentation과 Business logic을 효율적으로 분리한다. <br>
+ jsp는 Component의 재사용과 JSTL, EL, Custom tag 등을 활용한 개발 용이성, 서버 자원을 효율적으로 관리한다는 장점을 가진다.
+
+### JSP 동작과정
+
+![image](https://www.geeksforgeeks.org/wp-content/uploads/jsplifecycle.png)
+
+1. 최초 요청 시 
+    - JSP 파일은 Servlet인 Java 소스 파일로 변환되고 다시 클래스 파일로 컴파일 된다.
+    - 클래스 파일이 JSP/Servlet 컨테이너인 Tomcat 내에서 실행되어 그 결과가 최종적으로 웹 브라우저로 전달된다.
+
+2. 재요청 시
+    - 변환 및 컴파일이 최초 요청에서 이미 진행된다.
+    - 이미 메모리에 적재된 클래스가 응답을 준다.
+
+### JSP Sripting Element
+
+1. 스크립트릿(Scrptlet) : jsp 페이지 내에서 코드 구현을 위해 사용한다.
+
+    ```jsp
+    <%
+        for(int i = 1; i <= 10; ++i)
+            out.println("Number" + i + "<br>");
+    %>
+    ```
+
+2. 선언(Declaration) : 멤버변수나 선언이나 메소드 선언에 사용한다. Servlet으로 변환될 때 Servlet의 Member field나 Member method로 선언된다.
+
+    ```jsp
+    <%!
+        String name = "Dongik";
+        public boolean isExist(){
+            return true;
+        }
+    %>
+    ```
+
+3. 표현식(Expression) : 간단한 데이터 출력 또는 메소드 호출을 통한 결과 출력을 위해 활용한다.
+
+    ```jsp
+    <%=
+        result + resultSum()
+    %>
+    ```
+
+### JSP 지시자 태그 (Directive tag)
+
+Directive tag는 현재의 jsp 페이지 자체에 대해서 jsp 엔진 및 컨테이너에게 각종 처리 정보 전달하고 수행해야 할 기능을 정하는 역할을 한다.
+
+1. page Directive tag : 컨테이너에게 현재 jsp 페이지를 어떻게 처리할 것인가에 대한 정보를 제공한다. contentType, import, errorPage, isErrorPage, session, pageEncoding, buffer, autoflush, info, language, isThreadsafe, extends 속성 등을 정의할 수 있다.
+    ```jsp
+        <%@ page contentType="text/html;charset=utf-8" %> 
+    ```
+
+2. include Directive tag : 공통적인 jsp 내용에 대해 한 파일에 작성 후 다른 jsp 페이지 내에서 삽입할 수 있다.
+    ```jsp
+        <%@ include file="header.jsp" %> 
+    ```
+
+3. taglib Directive tag : 사용자가 만든 Custom tage를 이용할 때 사용되며 jsp 페이지 내에서 불필요한 자바 코드를 줄일 수 있다.
+    ```jsp
+        <%@ taglib uri="/WEB-INF/taglib.tld" prefix="soccer" %> 
+    ```
+ 
+
 ## Spring Framework
